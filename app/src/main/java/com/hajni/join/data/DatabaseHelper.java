@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if (cursor.moveToFirst()) {
 
             nothing = false;
-
+//test
         }
 
         cursor.close();
