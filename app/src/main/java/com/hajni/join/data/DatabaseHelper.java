@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.hajni.join.JoinActivity;
 import com.hajni.join.model.User;
 import com.hajni.join.util.Util;
 
@@ -43,16 +46,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Log.i("myDB", ""+db);
     }
 
-    public void getUser(int id){
-        boolean nothing = true;
-        Cursor cursor = db.rawQuery("SELECT * FROM "+Util.TABLE_NAME+" WHERE userid='"+id+"';", null);
-        if (cursor.moveToFirst()) {
-
-            nothing = false;
-//test
+    public void duplicateUser(String id,Context context){
+        Cursor cursor = db.rawQuery("SELECT * FROM "+Util.TABLE_NAME+" WHERE Util.KEY_USERID='"+id+"';", null);
+        if (cursor.getCount()==1) {
+            Toast.makeText(context, "이미 존재하는 아이입니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }else {
+            Toast.makeText(context, "사용가능한 아이디입니다.", Toast.LENGTH_SHORT).show();
         }
-
+        Log.i("aa",""+cursor);
         cursor.close();
+    }
+
+    public void getUser(String id, String pwd){
+
     }
 
 

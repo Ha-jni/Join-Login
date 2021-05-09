@@ -19,11 +19,16 @@ public class JoinActivity extends AppCompatActivity {
     EditText joinPass;
     EditText joinPassCheck;
     Button joinBtn;
+    Button duplicateBtn;
+    DatabaseHelper dh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
+        dh = new DatabaseHelper(JoinActivity.this);
+
+
 
         viewInit();
         onClick();
@@ -35,10 +40,20 @@ public class JoinActivity extends AppCompatActivity {
         joinPass = findViewById(R.id.joinPass);
         joinPassCheck = findViewById(R.id.joinPasscheck);
         joinBtn = findViewById(R.id.joinBtn);
+        duplicateBtn = findViewById(R.id.duplicateBtn);
+
 
     }
 
     private void onClick() {
+
+        duplicateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = joinId.getText().toString().trim();
+                dh.duplicateUser(id,JoinActivity.this);
+            }
+        });
 
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,21 +61,20 @@ public class JoinActivity extends AppCompatActivity {
                 String id = joinId.getText().toString().trim();
                 String passWord = joinPass.getText().toString().trim();
                 String passWordCheck = joinPassCheck.getText().toString().trim();
-                DatabaseHelper dh = new DatabaseHelper(JoinActivity.this);
 
 
                 if (id.isEmpty() || passWord.isEmpty()) {
                     Toast.makeText(JoinActivity.this, "입력해", Toast.LENGTH_SHORT).show();
                 } else if (!passWord.equals(passWordCheck)) {
                     Toast.makeText(JoinActivity.this, "비밀번호확", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     User user = new User();
                     user.setUserId(id);
                     user.setPassWord(passWord);
                     dh.addUser(user);
                     Log.i("zzz", "입력완");
                 }
-                Log.i("zzz", "" + id);
+                Log.i("zzz",""+id +" "+passWord);
             }
         });
 
