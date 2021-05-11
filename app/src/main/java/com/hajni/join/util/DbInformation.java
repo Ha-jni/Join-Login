@@ -1,6 +1,7 @@
 package com.hajni.join.util;
 
-public class Util {
+// 클래스이름변경
+public class DbInformation {
     public static final String DATABASE_NAME = "user_db";
     public static final int DATABASE_VERSION = 1;
 

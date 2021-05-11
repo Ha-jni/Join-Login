@@ -28,21 +28,17 @@ public class JoinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_join);
         dh = new DatabaseHelper(JoinActivity.this);
 
-
-
-        viewInit();
+        initView();
         onClick();
 
     }
 
-    private void viewInit() {
+    private void initView() {
         joinId = findViewById(R.id.joinId);
         joinPass = findViewById(R.id.joinPass);
         joinPassCheck = findViewById(R.id.joinPasscheck);
         joinBtn = findViewById(R.id.joinBtn);
         duplicateBtn = findViewById(R.id.duplicateBtn);
-
-
     }
 
     private void onClick() {
@@ -51,7 +47,8 @@ public class JoinActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String id = joinId.getText().toString().trim();
-                dh.duplicateUser(id,JoinActivity.this);
+                dh.checkedUser(id,JoinActivity.this);
+                // 중복확인이 아닌 복사하는 느낌이 듦 수정 확인하는 느낌이 들면 과거형을 쓰세여
             }
         });
 
@@ -61,6 +58,7 @@ public class JoinActivity extends AppCompatActivity {
                 String id = joinId.getText().toString().trim();
                 String passWord = joinPass.getText().toString().trim();
                 String passWordCheck = joinPassCheck.getText().toString().trim();
+                //변수상으로 비밀번호를 들고있으면안돼여
 
 
                 if (id.isEmpty() || passWord.isEmpty()) {
@@ -71,7 +69,12 @@ public class JoinActivity extends AppCompatActivity {
                     User user = new User();
                     user.setUserId(id);
                     user.setPassWord(passWord);
-                    dh.addUser(user);
+                    boolean joinCheck = dh.addUser(user,JoinActivity.this);
+                    if (joinCheck){
+                        finish();
+                    }else {
+                        return;
+                    }
                     Log.i("zzz", "입력완");
                 }
                 Log.i("zzz",""+id +" "+passWord);
